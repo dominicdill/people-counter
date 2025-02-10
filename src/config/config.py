@@ -8,6 +8,7 @@ class FrameCaptureSettings(BaseSettings):
     webcam_url: str
     model_path: DirectoryPath
     model_name: str
+    target_label_id: int
     frame_interval: int
     conf_threshold: float
     img_dir: DirectoryPath

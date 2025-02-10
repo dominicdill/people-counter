@@ -68,7 +68,7 @@ class BoxEditor:
         h = yolo_box[4] * self.img_height
         x0 = xc - w/2
         y0 = yc - h/2
-        edgecolor = 'green' if class_id == 0 else 'red'
+        edgecolor = 'green' if class_id == frame_capture_settings.target_label_id else 'red'
         patch = plt.Rectangle((x0, y0), w, h, edgecolor=edgecolor, facecolor=(0,0,0,0), lw=2)
         self.ax.add_patch(patch)
         self.fig.canvas.draw_idle()
@@ -112,7 +112,7 @@ class BoxEditor:
             y_center_norm = yc / self.img_height
             w_norm = w / self.img_width
             h_norm = h / self.img_height
-            new_box = [0, x_center_norm, y_center_norm, w_norm, h_norm]
+            new_box = [frame_capture_settings.target_label_id, x_center_norm, y_center_norm, w_norm, h_norm]
             # Append the new box and draw it
             self.boxes.append(new_box)
             patch = self.draw_box(new_box)
