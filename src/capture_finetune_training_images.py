@@ -74,11 +74,21 @@ while True:
                         bbox_width = (x2 - x1) / width
                         bbox_height = (y2 - y1) / height
                         # Write annotation line: class x_center y_center width height
-                        f.write(f"{cls} {x_center:.6f} {y_center:.6f} {bbox_width:.6f} {bbox_height:.6f}\n")
+                        f.write(f"{int(cls)} {x_center:.6f} {y_center:.6f} {bbox_width:.6f} {bbox_height:.6f}\n")
+                        cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+                        cv2.putText(
+                            frame,
+                            f"{int(cls)} {conf:.2f}",
+                            (int(x1), int(y1) - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.5,
+                            (0, 255, 0),
+                            2,
+                        )
     print(f"Saved annotations: {txt_filename}")
 
     # Optionally, display the frame (with no annotations drawn)
-    #cv2.imshow("Dataset Collection", frame)
+    cv2.imshow("Dataset Collection", frame)
 
 
 cap.release()
