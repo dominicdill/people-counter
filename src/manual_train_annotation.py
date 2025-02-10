@@ -27,6 +27,7 @@ def get_yolo_boxes_from_annotation_file(annotation_file):
 
 # =========================
 # The interactive BoxEditor class
+# Used to add and remove bounding box annotations for each frame interactively. All bounding boxes added will be associated with the target class, defined in the .env file
 # =========================
 
 class BoxEditor:
@@ -196,10 +197,13 @@ def on_key_editor(event, editor):
 
 def display_images(folder):
     """
-    For each .jpg image in the folder, display it along with its current annotations.
+    Loop through annotation .txt files in the default_label_dir folder. For each file, 
+    display the corresponding image and the existing bounding boxes. 
     Then allow the user to add boxes with left-clicks and remove boxes with right-clicks.
     Press 'n' or 'enter' to save changes and move to the next image,
     or press 'q' to quit the program.
+    This will move the annotation files to the edited_label_dir folder and out of the default_label_dir folder.
+
     """
     for annotation_filename in sorted(os.listdir(folder)):
         if not annotation_filename.lower().endswith('.txt'):
