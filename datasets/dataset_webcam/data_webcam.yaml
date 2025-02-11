@@ -1,0 +1,7 @@
+train: dataset_webcam/images/train
+val: dataset_webcam/images/val
+test: dataset_webcam/images/test
+
+nc: 1
+names: ['person']
+    
