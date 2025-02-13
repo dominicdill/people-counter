@@ -4,21 +4,21 @@ from datetime import datetime
 from ultralytics import YOLO
 import torch
 
-# Set up safe globals for PyTorch 2.6+ (include only if necessary)
-from ultralytics.nn.tasks import DetectionModel
-from torch.nn.modules.container import Sequential, ModuleList
-from ultralytics.nn.modules.conv import Conv, Concat
-from torch.nn.modules.conv import Conv2d
-from torch.nn.modules.batchnorm import BatchNorm2d
-from torch.nn.modules.activation import SiLU
-from ultralytics.nn.modules.block import C2f, Bottleneck, SPPF, DFL
-from torch.nn.modules.pooling import MaxPool2d
-from torch.nn.modules.upsampling import Upsample
-from ultralytics.nn.modules.head import Detect
-torch.serialization.add_safe_globals([
-    DetectionModel, Sequential, Conv, Conv2d, BatchNorm2d, SiLU, C2f, ModuleList,
-    Bottleneck, SPPF, MaxPool2d, Upsample, Concat, Detect, DFL
-])
+# # Set up safe globals for PyTorch 2.6+ (include only if necessary)
+# from ultralytics.nn.tasks import DetectionModel
+# from torch.nn.modules.container import Sequential, ModuleList
+# from ultralytics.nn.modules.conv import Conv, Concat
+# from torch.nn.modules.conv import Conv2d
+# from torch.nn.modules.batchnorm import BatchNorm2d
+# from torch.nn.modules.activation import SiLU
+# from ultralytics.nn.modules.block import C2f, Bottleneck, SPPF, DFL
+# from torch.nn.modules.pooling import MaxPool2d
+# from torch.nn.modules.upsampling import Upsample
+# from ultralytics.nn.modules.head import Detect
+# torch.serialization.add_safe_globals([
+#     DetectionModel, Sequential, Conv, Conv2d, BatchNorm2d, SiLU, C2f, ModuleList,
+#     Bottleneck, SPPF, MaxPool2d, Upsample, Concat, Detect, DFL
+# ])
 
 from config.config import frame_capture_settings
 
@@ -26,7 +26,6 @@ from config.config import frame_capture_settings
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
-# Load YOLOv8 model
 model = YOLO(os.path.join(frame_capture_settings.model_path, frame_capture_settings.model_name)).to(device)
 
 cap = cv2.VideoCapture(frame_capture_settings.webcam_url)

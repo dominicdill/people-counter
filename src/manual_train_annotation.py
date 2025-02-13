@@ -238,12 +238,25 @@ def display_images(folder):
         print("  Left-click twice to add a box; right-click inside a box to remove it.")
         print("  Press 'n' or 'enter' to save and move to the next image, or 'q' to quit.")
 
-        # Maximize window if possible and show the figure (this call blocks until the figure is closed)
+
         mng = plt.get_current_fig_manager()
         try:
-            mng.window.showMaximized()
-        except AttributeError:
-            pass  # Some backends may not support this
+            # First try with state('zoomed')
+            mng.window.state('zoomed')
+        except Exception:
+            try:
+                # If that fails, try with attributes
+                mng.window.attributes('-zoomed', True)
+            except Exception as e:
+                print("Could not maximize the window:", e)
+
+        # # Maximize window if possible and show the figure (this call blocks until the figure is closed)
+        # mng = plt.get_current_fig_manager()
+        # try:
+        #     mng.window.showMaximized()
+        # except AttributeError:
+        #     print(mng.__dict__)
+        #     pass  # Some backends may not support this
 
         plt.show()
 
