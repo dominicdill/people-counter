@@ -1,6 +1,6 @@
-train: dataset_webcam/images/train
-val: dataset_webcam/images/val
-test: dataset_webcam/images/test
+train: images/train
+val: images/val
+test: images/test
 
 nc: 1
 names: ['person']
