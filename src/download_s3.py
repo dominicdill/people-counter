@@ -3,8 +3,6 @@ import zipfile
 
 import boto3
 
-from ultralytics import YOLO
-
 
 bucket_name = 'dominic-dill-people-counter'
 sns_topic_arn = None
