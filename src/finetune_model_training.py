@@ -59,9 +59,14 @@ def webcam_train(model_path):
     print("Finetuning on webcam dataset complete!")
     #print(results)
 
+def main():
+    external_model = external_train()
+    webcam_model = webcam_train(external_model)
+    print("Training complete!")
+    print("Best model for the current run is saved at:", webcam_model)
 
-external_model = external_train()
-webcam_model = webcam_train(external_model)
+if __name__ == "__main__":
+    main()
 
 # def main():
 #     # Path to your pre-trained model (assumed to be YOLOv8 nano)
