@@ -12,48 +12,56 @@ def external_train():
     # Load the pre-trained YOLO model
     model = YOLO(model_path)
 
-    data_yaml = "dataset_external/data_external.yaml"
     data_yaml = os.path.abspath(os.path.join("datasets", "dataset_external", "data_external.yaml"))
+    print("Data YAML path:", data_yaml)
     model_name = frame_capture_settings.model_name.split(".")[0]
     
     # Stage 1: Fine tuning on external dataset
     results = model.train(
         data=data_yaml,
-        epochs=20,
+        epochs=50,
         imgsz=640,
-        batch=4,
+        batch=16,
         project="finetune",
         name=f"{model_name}_external_finetune",
     )
     
     # Optionally, save or print training results
     print("Finetuning on external dataset complete!")
-    print(results)
+    #print(results)
+    current_run_dir = results.save_dir  # This directory is unique to the current run
+    best_model_path = os.path.join(current_run_dir, "weights", "best.pt")
+    print("Best model for the current run is saved at:", best_model_path)
+    return best_model_path
 
-external_train()
+#external_train()
 
-# def webcam_train():
-#     # Path to your pre-trained model (assumed to be YOLOv8 nano)
-#     model_path = os.path.join(frame_capture_settings.model_path, frame_capture_settings.model_name)
+def webcam_train(model_path):
     
-#     # Load the pre-trained YOLO model
-#     model = YOLO(model_path)
+    # Load the pre-trained YOLO model
+    model = YOLO(model_path)
 
-#     data_yaml = "dataset_webcam/data_webcam.yaml"
+    data_yaml = os.path.abspath(os.path.join("datasets", "dataset_webcam", "data_webcam.yaml"))
+    print("Data YAML path:", data_yaml)
+    model_name = frame_capture_settings.model_name.split(".")[0]
     
-#     # Stage 2: Fine tuning on webcam dataset
-#     results = model.train(
-#         data=data_yaml,
-#         epochs=50,
-#         imgsz=640,
-#         batch=16,
-#         project="finetune",
-#         name="yolov8n_webcam_finetune"
-#     )
+    # Stage 2: Fine tuning on webcam dataset
+    results = model.train(
+        data=data_yaml,
+        epochs=50,
+        imgsz=640,
+        batch=16,
+        project="finetune",
+        name=f"{model_name}_webcam_finetune"
+    )
     
-#     # Optionally, save or print training results
-#     print("Finetuning on webcam dataset complete!")
-#     print(results)
+    # Optionally, save or print training results
+    print("Finetuning on webcam dataset complete!")
+    #print(results)
+
+
+external_model = external_train()
+webcam_model = webcam_train(external_model)
 
 # def main():
 #     # Path to your pre-trained model (assumed to be YOLOv8 nano)
