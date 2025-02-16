@@ -1,8 +1,11 @@
-import os
 import zipfile
-
 import boto3
 
+'''
+This script downloads datasets from S3 bucket and extracts them.
+It is intended to be run on an EC2 instance with the appropriate IAM role and permissions.
+It expects a file named 'datasets.zip' in the S3 bucket under the 'in' directory.
+'''
 
 
 def download_datasets():
