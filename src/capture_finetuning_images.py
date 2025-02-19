@@ -11,7 +11,8 @@ from config.config import frame_capture_settings
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
-model = YOLO(os.path.join(frame_capture_settings.model_path, frame_capture_settings.model_name)).to(device)
+#model = YOLO(os.path.join(frame_capture_settings.model_path, frame_capture_settings.model_name)).to(device)
+model = YOLO('finetune/yolo11l_webcam_finetune/weights/best.pt').to(device)
 
 cap = cv2.VideoCapture(frame_capture_settings.webcam_url)
 if not cap.isOpened():
