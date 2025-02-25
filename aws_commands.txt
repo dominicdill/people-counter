@@ -18,7 +18,7 @@ conda create --name test
 
 conda activate test
 
-pip3 install torch torchvision torchaudio ultralytics boto3 pydantic pydantic-settings
+pip3 install torch torchvision torchaudio ultralytics boto3 pydantic pydantic-settings albumentations
 
 git clone https://github.com/dominicdill/people-counter.git
 

@@ -1,6 +1,8 @@
 /datasets/**/*.jpg
 /datasets/**/*.txt
 
+/demo/**/*.jpg
+
 
 
 # Byte-compiled / optimized / DLL files

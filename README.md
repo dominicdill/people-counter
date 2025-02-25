@@ -8,6 +8,6 @@ The Camden Snow Bowl hosts a [web cam](https://camdensnowbowl.com/web-cam/) that
 
 A comparison of the two models can be seen in the below gif.
 
-![Demo Output](demo_output2.gif)
+![Demo Output](demo/demo_output2.gif)
 
 
