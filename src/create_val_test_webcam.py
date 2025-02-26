@@ -2,9 +2,11 @@ import os
 import random
 import shutil
 
-def move_files(src_img_dir, src_label_dir, dest_img_dir, dest_label_dir, sample_ratio):
+from config.config import train_val_test_settings, frame_capture_settings
+
+def move_files(src_img_dir, src_labels_dir, dest_img_dir, dest_labels_dir, sample_size):
     """
-    Randomly selects a percentage of images from src_img_dir and moves them, along with their
+    Randomly selects a number of images from src_img_dir and moves them, along with their
     associated label files from src_label_dir, to dest_img_dir and dest_label_dir.
     """
     valid_extensions = {'.jpg', '.jpeg', '.png', '.bmp'}  # adjust as needed
@@ -18,11 +20,6 @@ def move_files(src_img_dir, src_label_dir, dest_img_dir, dest_label_dir, sample_
     if not images:
         print("No images found in", src_img_dir)
         return
-
-    # Calculate how many files to move; ensure at least 1 file is moved if the ratio > 0 and there are files.
-    sample_size = int(len(images) * sample_ratio)
-    if sample_size == 0 and sample_ratio > 0:
-        sample_size = 1
 
     # Randomly sample images
     sampled_files = random.sample(images, sample_size)
@@ -39,8 +36,8 @@ def move_files(src_img_dir, src_label_dir, dest_img_dir, dest_label_dir, sample_
         # For the label, we assume it's a .txt file with the same base name.
         base_name, _ = os.path.splitext(file)
         label_filename = base_name + ".txt"
-        src_label = os.path.join(src_label_dir, label_filename)
-        dst_label = os.path.join(dest_label_dir, label_filename)
+        src_label = os.path.join(src_labels_dir, label_filename)
+        dst_label = os.path.join(dest_labels_dir, label_filename)
         
         if os.path.exists(src_label):
             shutil.move(src_label, dst_label)
@@ -48,27 +45,33 @@ def move_files(src_img_dir, src_label_dir, dest_img_dir, dest_label_dir, sample_
             print(f"Label file not found for image {file} at {src_label}")
 
 if __name__ == "__main__":
-    # Set the base directory for your dataset
-    base_dir = os.path.join(os.getcwd(), "datasets", "dataset_webcam")
     
-    # Directories for images
-    train_images_dir = os.path.join(base_dir, "images", "train")
-    val_images_dir = os.path.join(base_dir, "images", "val")
-    test_images_dir = os.path.join(base_dir, "images", "test")
-    
-    # Directories for labels
-    train_labels_dir = os.path.join(base_dir, "labels", "train")
-    val_labels_dir = os.path.join(base_dir, "labels", "val")
-    test_labels_dir = os.path.join(base_dir, "labels", "test")
-    
+    src_imgs_dir = frame_capture_settings.img_dir
+    src_labels_dir = frame_capture_settings.edited_label_dir
+
+
+    dest_train_img_dir = train_val_test_settings.train_images_dir
+    dest_train_label_dir = train_val_test_settings.train_labels_dir
+    dest_val_img_dir = train_val_test_settings.val_images_dir
+    dest_val_label_dir = train_val_test_settings.val_labels_dir
+    dest_test_img_dir = train_val_test_settings.test_images_dir
+    dest_test_label_dir = train_val_test_settings.test_labels_dir
+
+       
     # Ensure destination directories exist
-    os.makedirs(val_images_dir, exist_ok=True)
-    os.makedirs(val_labels_dir, exist_ok=True)
-    os.makedirs(test_images_dir, exist_ok=True)
-    os.makedirs(test_labels_dir, exist_ok=True)
+    os.makedirs(train_val_test_settings.val_images_dir, exist_ok=True)
+    os.makedirs(train_val_test_settings.val_labels_dir, exist_ok=True)
+    os.makedirs(train_val_test_settings.test_images_dir, exist_ok=True)
+    os.makedirs(train_val_test_settings.test_labels_dir, exist_ok=True)
+    os.makedirs(train_val_test_settings.train_images_dir, exist_ok=True)
+    os.makedirs(train_val_test_settings.train_labels_dir, exist_ok=True)
+
     
-    # Move 15% of images/labels to the val folders
-    move_files(train_images_dir, train_labels_dir, val_images_dir, val_labels_dir, sample_ratio=0.15)
+    val_sample_size = int(len(os.listdir(src_imgs_dir)) * train_val_test_settings.sample_ratio_val)
+    test_sample_size = int(len(os.listdir(src_imgs_dir)) * train_val_test_settings.sample_ratio_test)
+    train_sample_size = len(os.listdir(src_imgs_dir)) - val_sample_size - test_sample_size
     
-    # Move 1% of images/labels to the test folders
-    move_files(train_images_dir, train_labels_dir, test_images_dir, test_labels_dir, sample_ratio=0.01)
+    
+    move_files(src_imgs_dir, src_labels_dir, dest_val_img_dir, dest_val_label_dir, sample_size=val_sample_size)
+    move_files(src_imgs_dir, src_labels_dir, dest_test_img_dir, dest_test_label_dir, sample_size=test_sample_size)
+    move_files(src_imgs_dir, src_labels_dir, dest_train_img_dir, dest_train_label_dir, sample_size=train_sample_size)
