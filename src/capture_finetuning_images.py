@@ -1,11 +1,11 @@
 import os
 import cv2
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
 from ultralytics import YOLO
 import torch
 
 from config.config import frame_capture_settings
-
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
@@ -19,12 +19,29 @@ if not cap.isOpened():
 
 frame_count = 0
 
-while True:
+start_time = datetime.now()
+end_time = start_time + timedelta(hours=frame_capture_settings.duration_hours)
+print("Start time:", start_time)
+print("End time:", end_time)
+
+
+while datetime.now() < end_time:
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
-    ret, frame = cap.read()
-    if not ret:
-        print("Failed to grab frame")
+
+    try:
+        ret, frame = cap.read()
+        counter = 0
+        while not ret:
+            time.sleep(1)
+            print("Error: Could not read frame. Retrying...")
+            ret, frame = cap.read()
+            counter += 1
+            if counter >= 10:
+                print("Error: Could not read frame after 10 retries.")
+                break
+    except Exception as e:
+        print(f"Error reading webcam: {e}")
         break
 
     frame_count += 1

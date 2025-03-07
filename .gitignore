@@ -3,6 +3,9 @@
 
 /demo/**/*.jpg
 
+/images_for_manual_labeling/**/*.jpg
+/images_for_manual_labeling/**/*.txt
+
 
 
 # Byte-compiled / optimized / DLL files
@@ -177,5 +180,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-.Identifier
-.avi
+*.Identifier
+*.avi

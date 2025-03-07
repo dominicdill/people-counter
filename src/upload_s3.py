@@ -4,7 +4,7 @@ import zipfile
 import boto3
 
 
-def upload_model_results():
+def upload_model_results(bucket_name, sns_topic_arn):
     bucket_name = 'dominic-dill-people-counter'
     sns_topic_arn = 'arn:aws:sns:us-east-1:767397842563:dominicdill-people-counter-train-sns'
 
