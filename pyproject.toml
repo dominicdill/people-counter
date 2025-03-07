@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "people-counter"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.13.*"
+torch = "^2.6.0"
+torchvision = "^0.21.0"
+torchaudio = "^2.6.0"
+ultralytics = "^8.3.85"
+boto3 = "^1.37.8"
+pydantic = "^2.10.6"
+pydantic-settings = "^2.8.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
