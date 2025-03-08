@@ -2,7 +2,7 @@ import os
 import random
 import shutil
 
-from src.config.config import train_val_test_settings, frame_capture_settings
+from config.config import train_val_test_settings, frame_capture_settings
 
 valid_extensions = {'.jpg', '.jpeg', '.png', '.bmp'}
     
