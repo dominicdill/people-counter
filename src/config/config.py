@@ -12,7 +12,7 @@ class FrameCaptureSettings(BaseSettings):
     webcam_url: str
     webcam_name: str                    # used for labeling frames used in fine tuning
     model_path: Path                      # path to model used for assisted labeling
-    target_label_id: int                # assumes only 1 target class
+    target_label: str                   # assumes only 1 target class
     frame_interval: int                 # process every nth frame
     duration_hours: int                 # duration to capture frames in hours
     conf_threshold: float               # confidence threshold for detections

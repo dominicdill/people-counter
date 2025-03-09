@@ -1,0 +1,12 @@
+name: people-counter
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.13
+  - anaconda::boto3
+  - conda-forge::pydantic
+  - conda-forge::pydantic-settings
+  - ipykernel
+  - conda-forge::opencv
+prefix: /home/ddd/miniconda3/envs/people-counter
