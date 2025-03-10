@@ -42,12 +42,15 @@ Once you have the environment activated, you can utilize this repo to finetune a
 
 3) Once you have saved frames you can begin manually labeling them. You can perform this step in parallel with step 2. To begin, execute `src/manual_train_annotation.py`. This should display an image from the `images_for_manual_labeling` directory (specifically, images that don't have an associated annotation file in the `images_for_manual_labeling/labels/manually_labeled` folder) with bounding boxes for objects detected by the model used when you ran `src/capture_finetuning_images.py`. If the bounding box positioned poorly or it detects an object not of interest to you then you should remove it by right clicking inside of it. To create new bounding boxes, simply left click twice to define the corners of your box. Press enter when you are done labelling all of the objects of interest in your frame to saved your annotation file and move on to the next frame. Pressing enter will move the annotation file from the `images_for_manual_labeling/labels/model_defaults` to the `images_for_manual_labeling/labels/manually_labelled` folder. If you inadvertently press enter and want to re-edit a file using this tool then you will have to move that file back into the `images_for_manual_labeling/labels/model_defaults` folder. 
 
-<p align="center">
-    <video width="600" controls>
-        <source src="manual_train_annotation_demo.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-</p>
+<video width="600" controls>
+    <source src="manual_train_annotation_demo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<video width="600" controls>
+    <source src="labelling_demo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
 
 
 4) When you have labeled enough frames (~hundreds ideally) you can begin finetuning the default YOLO model. You can choose to do this locally, or on the cloud. I wanted to gain experience with AWS, so I trained a YOLOv11l (l for large) model on an EC2 instance with CUDA. With a training set of around 400 images it took me about 3 hours and cost about $2.50 to finetune the model. However, I also finetuned the YOLO model on a [publicly available dataset for people detection (~5000 images)](https://universe.roboflow.com/titulacin/person-detection-9a6mk/dataset/16) before finetuning it on my dataset. Performing two stages of finetuning allowed for me to easily make use of public data to improve my models ability to detect people. I was then able to further finetune it for the Snow Bowl`s webcam, which primarily shows people on skis and snowboards with helmets on.
@@ -57,10 +60,6 @@ Once you have the environment activated, you can utilize this repo to finetune a
     <p align="center">
         <img src="datasets_layout.png" alt="alt text">
     </p>
-
-test dominicdill/people-counter/blob/main/manual_train_annotation_demo.mp4
-    
-[![Watch the video](https://raw.githubusercontent.com/dominicdill/people-counter/main/datasets_layout.png)](https://raw.githubusercontent.com/dominicdill/people-counter/main/labelling_demo.mp4)
 
 
     
