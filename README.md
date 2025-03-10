@@ -58,8 +58,11 @@ Once you have the environment activated, you can utilize this repo to finetune a
         <img src="datasets_layout.png" alt="alt text">
     </p>
 
-    dominicdill/people-counter/blob/main/manual_train_annotation_demo.mp4
-    [![Watch the video](https://raw.githubusercontent.com/dominicdill/people-counter/main/assets/thumbnail.jpg)](https://raw.githubusercontent.com/dominicdill/people-counter/main/assets/manual_train_annotation_demo.mp4)
+test dominicdill/people-counter/blob/main/manual_train_annotation_demo.mp4
+    
+[![Watch the video](https://raw.githubusercontent.com/dominicdill/people-counter/main/datasets_layout.png)](https://raw.githubusercontent.com/dominicdill/people-counter/main/manual_train_annotation_demo.mp4)
+
+
     
     Additionally, you must make sure that the class id used to identify your objects matches. If the external dataset has people, but they have an id of 1, while yours have an id of 0, then you must change the class id of the external dataset to match yours. 
 
