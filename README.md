@@ -60,7 +60,7 @@ Once you have the environment activated, you can utilize this repo to finetune a
 
 test dominicdill/people-counter/blob/main/manual_train_annotation_demo.mp4
     
-[![Watch the video](https://raw.githubusercontent.com/dominicdill/people-counter/main/datasets_layout.png)](https://raw.githubusercontent.com/dominicdill/people-counter/main/manual_train_annotation_demo.mp4)
+[![Watch the video](https://raw.githubusercontent.com/dominicdill/people-counter/main/datasets_layout.png)](https://raw.githubusercontent.com/dominicdill/people-counter/main/labelling_demo.mp4)
 
 
     
