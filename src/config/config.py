@@ -40,10 +40,12 @@ class FineTuneSettings(BaseSettings):
     model_path: Path                     # path to model to finetune
     external_finetune: bool             # finetune on external dataset
     external_finetune_yaml: Path
+    external_finetune_imgsz: int
     external_finetune_epochs: int
     external_finetune_batch_size: int
     webcam_finetune: bool               # finetune on webcam dataset
     webcam_finetune_yaml: Path
+    webcam_finetune_imgsz: int
     webcam_finetune_epochs: int
     webcam_finetune_batch_size: int
 

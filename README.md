@@ -1,9 +1,8 @@
 
 # people-counter
-### **Goal**: Create a repository that can serve as a backbone for finetuning object detection models on individual web cams so that they can be used to count objects.
+### **Goal**: Create a pipeline for finetuning object detection models on webcams.
 
 The Camden Snow Bowl hosts a [web cam](https://camdensnowbowl.com/web-cam/) that displays the conditions at the base of the mountain. I have fine tuned a YOLOv11 model on a publicly available ['person detection' dataset](https://universe.roboflow.com/titulacin/person-detection-9a6mk/dataset/16), followed by a second fine tuning step on a private dataset created through assisted labeling of frames captured from the Camden Snow Bowl.
-
 
 A comparison of the two models can be seen in the below gif.
 
@@ -24,7 +23,7 @@ Once you have the environment activated, you can utilize this repo to finetune a
 
 1) Update the `src/config/.env`, specifically:
     * The `webcam_url` parameter should point to your url. The url should open up a video stream that does not require any user interaction (like pressing play). Also, change the `webcam_name` parameter to something fitting.
-    * The `target_label` parameter should be updated if you want to detect something other than people. Look through the classes listed in `default_classes.txt`. If one of the default labels matches what you are trying to detect then update `target_label` to that label. If nothing matches, then set this parameter to the new label of your choice.
+    * The `target_label` parameter should be updated if you want to detect something other than people. Look through the classes listed in `default_classes.txt`. If one of the default labels matches what you are trying to detect then update `target_label` to that label. If nothing matches, then set this parameter to the new label of your choice. Whichever label is set here will have an id of 0. All annotation files should only contain information about id=0 objects.
     * The `frame_interval` parameter determines the frequency at which frames from your webcam are saved to your device.
     * The `duration_hours` parameter sets the number of hours frames are captured when executing `src/capture_finetuning_images.py`. 
     * The `model_path` parameter sets the pretrained model to be used as a starting point. I suggest using a smaller model, like YOLOv11n, if your compute is limited or you need to run inference very quickly. If accuracy is of the utmost importance and you have the compute then I suggest starting with something like YOLOv11l. Pretrained base models can be found in `src/models`. If you have already fine tuned a model and wish to continue training it then you should change your model path to point to your fine tuned model. Finetuned models will be saved with the name `best.pt` and located in a subfolder of a folder with the same title as the `project_name` parameter.  
@@ -40,30 +39,35 @@ Once you have the environment activated, you can utilize this repo to finetune a
     </p>
 </p>
 
-3) Once you have saved frames you can begin manually labeling them. You can perform this step in parallel with step 2. To begin, execute `src/manual_train_annotation.py`. This should display an image from the `images_for_manual_labeling` directory (specifically, images that don't have an associated annotation file in the `images_for_manual_labeling/labels/manually_labeled` folder) with bounding boxes for objects detected by the model used when you ran `src/capture_finetuning_images.py`. If the bounding box positioned poorly or it detects an object not of interest to you then you should remove it by right clicking inside of it. To create new bounding boxes, simply left click twice to define the corners of your box. Press enter when you are done labelling all of the objects of interest in your frame to saved your annotation file and move on to the next frame. Pressing enter will move the annotation file from the `images_for_manual_labeling/labels/model_defaults` to the `images_for_manual_labeling/labels/manually_labelled` folder. If you inadvertently press enter and want to re-edit a file using this tool then you will have to move that file back into the `images_for_manual_labeling/labels/model_defaults` folder. 
-
-<video width="600" controls>
-    <source src="manual_train_annotation_demo.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-
-<video width="600" controls>
-    <source src="labelling_demo.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+3) Once you have saved frames you can begin manually labeling them. You can perform this step in parallel with step 2. To begin, execute `src/manual_train_annotation.py`. This should display an image from the `images_for_manual_labeling` directory (specifically, images that don't have an associated annotation file in the `images_for_manual_labeling/labels/manually_labeled` folder) with bounding boxes for objects detected by the model used when you ran `src/capture_finetuning_images.py`. If the bounding box is positioned poorly or it detects an object not of interest to you then you should remove it by right clicking inside of it. To create new bounding boxes, simply left click twice to define the corners of your box. Press enter when you are done labelling all of the objects of interest in your frame to saved your annotation file and move on to the next frame. Pressing enter will move the annotation file from the `images_for_manual_labeling/labels/model_defaults` to the `images_for_manual_labeling/labels/manually_labelled` folder. If you inadvertently press enter and want to re-edit a file using this tool then you will have to move that file back into the `images_for_manual_labeling/labels/model_defaults` folder. A video demoing labelling can be found in this repository.
 
 
-4) When you have labeled enough frames (~hundreds ideally) you can begin finetuning the default YOLO model. You can choose to do this locally, or on the cloud. I wanted to gain experience with AWS, so I trained a YOLOv11l (l for large) model on an EC2 instance with CUDA. With a training set of around 400 images it took me about 3 hours and cost about $2.50 to finetune the model. However, I also finetuned the YOLO model on a [publicly available dataset for people detection (~5000 images)](https://universe.roboflow.com/titulacin/person-detection-9a6mk/dataset/16) before finetuning it on my dataset. Performing two stages of finetuning allowed for me to easily make use of public data to improve my models ability to detect people. I was then able to further finetune it for the Snow Bowl`s webcam, which primarily shows people on skis and snowboards with helmets on.
+4) When you have labeled enough frames (thousands ideally) you can begin finetuning the default YOLO model. You can choose to do this locally, or on the cloud. I wanted to gain experience with AWS, so I trained a YOLOv11l (l for large) model on an EC2 instance with CUDA. With a training set of around 400 images it took me about 3 hours and cost about $2.50 to finetune the model. However, I also finetuned the YOLO model on a [publicly available dataset for people detection (~5000 images)](https://universe.roboflow.com/titulacin/person-detection-9a6mk/dataset/16) before finetuning it on my dataset. Performing two stages of finetuning allowed for me to easily make use of public data to improve my models ability to detect people. I was then able to further finetune it for the Snow Bowl`s webcam, which primarily shows people on skis and snowboards with helmets on.
     
-    **Note:** If you have a public (or external, as it is referred to in the code) dataset that you would like to make use of then you must move it into the `datasets/dataset_external` repository. You must make sure the dataset is in the YOLO format (image files and annotation files have the same name and annotations are saved as text files in the format of "class_id x_center_norm y_center_norm width_norm height_norm", where norm means normalized by the images original shape). The images should be in the images subfolder and the labels/annotations in the labels subfolder:
+    <small><em>
+    **Note:** If you have a public (or external, as it is referred to in the code) dataset that you would like to make use of then you must move it into the `datasets/dataset_external` repository. You must make sure the dataset is in the YOLO format (image files and annotation files have the same name and annotations are saved as text files in the format of "class_id x_center_norm y_center_norm width_norm height_norm", where norm means normalized by the images original shape). The images should be in the images subfolder and the labels/annotations in the labels subfolder: '
 
     <p align="center">
         <img src="datasets_layout.png" alt="alt text">
     </p>
 
+    You must make sure that the class id used to identify your objects is the same in both the external and webcam generated datasets. If the external dataset has people, but they have an id of 1, while yours have an id of 0, then you must change the class id of the external dataset to match yours. The `src/update_label_id.py` script can be used to help with this. If your dataset isn't in YOLO format then you can probably find some converters online.
+    </em></small>
+
+    If you have an external dataset that you would like to finetune on before using your own then you will need to set `external_finetune` to `True` in the `src/config/.env` file. Additionally, a yaml file is required for each finetuning run. This repo supplies two yaml files, which can be seen in the above screenshot. The yaml files are used to tell the YOLO models where to look for the train, val, and test images, as well as the name of the type of object you're trying to identify, which should be equal to the string you set target_label to in the .env file.
+
+    <p align = "center">
+        <img src = "image-1.png" alt = "yaml file">
+    </p>
+
+    If you have moved an external dataset into the `datasets/dataset_external` folder make sure it is structured like the above picture, with the image and label subfolders (and test, train, val subsubfolders) as well as the yaml file. Ensure that the `.env` file points to your .yaml files.
+    <p align = "center">
+        <img src = "image.png" alt = "yaml file">
+    </p>
+
+    If you don't have an external dataset to finetune on then simply set `external_finetune` to `False` in the `.env` file and continue pointing to the default folders and yaml file. They will not be used, but an error will be thrown if these parameters point to nonexistent files and folders.
 
     
-    Additionally, you must make sure that the class id used to identify your objects matches. If the external dataset has people, but they have an id of 1, while yours have an id of 0, then you must change the class id of the external dataset to match yours. 
 
 
 

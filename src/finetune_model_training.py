@@ -17,7 +17,7 @@ def external_train(timestamp):
     results = model.train(
         data=data_yaml,
         epochs=finetune_settings.external_finetune_epochs,
-        imgsz=640,
+        imgsz=finetune_settings.external_finetune_imgsz,
         batch=finetune_settings.external_finetune_batch,
         project=finetune_settings.project_name,
         name=f"Stage_1_{model_name}_external_finetune_{timestamp}",
@@ -40,7 +40,7 @@ def webcam_train(model_path, model_name):
     results = model.train(
         data=data_yaml,
         epochs=finetune_settings.webcam_finetune_epochs,
-        imgsz=640,
+        imgsz=finetune_settings.webcam_finetune_imgsz,
         batch=finetune_settings.webcam_finetune_batch_size,
         project=finetune_settings.project_name,
         name=model_name,

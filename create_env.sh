@@ -11,10 +11,11 @@ YAML_FILE="env-from-history.yml"  # This file contains:
 #     - defaults
 #   dependencies:
 #     - python=3.13
-#     - conda-forge::ultralytics
 #     - conda-forge::pydantic
 #     - conda-forge::pydantic-settings
 #     - anaconda::boto3
+#     - ipykernel
+#     - conda-forge::opencv
 
 # Step 1: Create a minimal conda environment with only Python
 conda create -n "$ENV_NAME" python=$PYTHON_VERSION -y
@@ -32,7 +33,6 @@ fi
 pip install ultralytics
 
 # Step 3: Update the environment with the rest of your conda dependencies from the YAML
-# This will install ultralytics (and its dependencies) from conda.
 conda env update --name "$ENV_NAME" --file "$YAML_FILE"
 
 echo "Environment '$ENV_NAME' created successfully."

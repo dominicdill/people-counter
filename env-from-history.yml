@@ -9,4 +9,3 @@ dependencies:
   - conda-forge::pydantic-settings
   - ipykernel
   - conda-forge::opencv
-prefix: /home/ddd/miniconda3/envs/people-counter

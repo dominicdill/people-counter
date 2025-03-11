@@ -22,6 +22,7 @@ def get_yolo_boxes_from_annotation_file(annotation_file):
         if len(box) != 5:
             continue  # skip invalid lines
         box = [float(x) for x in box]
+        box[0] = int(box[0])  # convert class_id to integer
         boxes.append(box)
     return boxes
 
