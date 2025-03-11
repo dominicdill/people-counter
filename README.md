@@ -33,7 +33,7 @@ Once you have the environment activated, you can utilize this repo to finetune a
 
 <p align='center'>
     <p align="right">
-        <img src="capture_finetuning_images_display.png" alt="alt text">
+        <img src="readme_imgs/capture_finetuning_images_display.png" alt="alt text">
         <br>
         <i>Example of the capture_finetuning_images.py output and the basic YOLO format. The image (.jpg) and annotation (.txt) file have the same name but different extensions and filepaths. The lines of text in the .txt file displayed indicate that three objects with id=0 were identified. Each row in the .txt file displays the following: class_id x_center_norm y_center_norm width_norm height_norm</i>
     </p>
@@ -48,7 +48,7 @@ Once you have the environment activated, you can utilize this repo to finetune a
     **Note:** If you have a public (or external, as it is referred to in the code) dataset that you would like to make use of then you must move it into the `datasets/dataset_external` repository. You must make sure the dataset is in the YOLO format (image files and annotation files have the same name and annotations are saved as text files in the format of "class_id x_center_norm y_center_norm width_norm height_norm", where norm means normalized by the images original shape). The images should be in the images subfolder and the labels/annotations in the labels subfolder: '
 
     <p align="center">
-        <img src="datasets_layout.png" alt="alt text">
+        <img src="readme_imgs/datasets_layout.png" alt="alt text">
     </p>
 
     You must make sure that the class id used to identify your objects is the same in both the external and webcam generated datasets. If the external dataset has people, but they have an id of 1, while yours have an id of 0, then you must change the class id of the external dataset to match yours. The `src/update_label_id.py` script can be used to help with this. If your dataset isn't in YOLO format then you can probably find some converters online.
@@ -57,12 +57,12 @@ Once you have the environment activated, you can utilize this repo to finetune a
     If you have an external dataset that you would like to finetune on before using your own then you will need to set `external_finetune` to `True` in the `src/config/.env` file. Additionally, a yaml file is required for each finetuning run. This repo supplies two yaml files, which can be seen in the above screenshot. The yaml files are used to tell the YOLO models where to look for the train, val, and test images, as well as the name of the type of object you're trying to identify, which should be equal to the string you set target_label to in the .env file.
 
     <p align = "center">
-        <img src = "image-1.png" alt = "yaml file">
+        <img src = "readme_imgs/external_yaml.png" alt = "yaml file">
     </p>
 
     If you have moved an external dataset into the `datasets/dataset_external` folder make sure it is structured like the above picture, with the image and label subfolders (and test, train, val subsubfolders) as well as the yaml file. Ensure that the `.env` file points to your .yaml files.
     <p align = "center">
-        <img src = "image.png" alt = "yaml file">
+        <img src = "readme_imgs/dot_env.png" alt = ".env">
     </p>
 
     If you don't have an external dataset to finetune on then simply set `external_finetune` to `False` in the `.env` file and continue pointing to the default folders and yaml file. They will not be used, but an error will be thrown if these parameters point to nonexistent files and folders.
