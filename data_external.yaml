@@ -1,0 +1,7 @@
+train: dataset_external/images/train
+val: dataset_external/images/val
+test: dataset_external/images/test
+
+nc: 1
+names: ['person']
+    
